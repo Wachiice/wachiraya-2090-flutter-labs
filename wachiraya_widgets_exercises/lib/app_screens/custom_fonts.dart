@@ -9,16 +9,17 @@ class MyName extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Center(
+        children: [
+          Expanded(
+            child:Center(
             child: Container(
               margin: const EdgeInsets.all(30),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.pink[100],
+              color: Colors.pink[100],
               ),
               child: const Text(
-                'วชิรญาณ์ \nพลซา',
+                'วชิรญาณ์ พลซา',
                 textDirection: TextDirection.ltr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -29,6 +30,7 @@ class MyName extends StatelessWidget {
                     fontWeight: FontWeight.w700),
               ),
             ),
+          ),
           ),
         ],
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import './app_screens/rows_cols_expanded.dart';
-
+import './app_screens/faculty_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Widget From Exercise',
-      debugShowCheckedModeBanner: false, // Remove the debug banner
-      home: WidgetsExercise(),
+      title: 'KKU faculty Demo',
+      home: FacultyList(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
-

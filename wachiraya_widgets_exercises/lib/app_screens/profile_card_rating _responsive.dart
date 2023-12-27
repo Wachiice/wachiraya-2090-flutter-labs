@@ -7,30 +7,88 @@ class ProfileCardRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(50),
-      color: Colors.pink[100],
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ContactImage(
-              imageFile: AssetImage('images/lalinalena.jpg'), name: "Lalina"),
-          ContactInfo(
-            addrName: "Bangkok",
-            addrInfo: "Thailand",
-            phoneManager: "098-8245429",
-            workInquiries: "Work inquiries",
-            instagram: "lalinalena ",
-          ),
-          Ratings(
-            defaultColor: Colors.black,
-            ratingColor: Colors.red,
-          ),
-        ],
+    return Scaffold(
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return constraints.maxWidth > 600
+              ? buildWideScreenContainers()
+              : buildPortraitContainer();
+        },
+      ),
+    );
+  }
+
+  Widget buildWideScreenContainers() {
+    return Scaffold(
+      body: Container(
+        padding: const EdgeInsets.all(40),
+        color: Colors.pink[100],
+        child: const Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ContactImage(
+              imageFile: AssetImage('images/lalinalena.jpg'),
+              name: "Lalina",
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ContactInfo(
+                    addrName: "Bangkok",
+                    addrInfo: "Thailand",
+                    phoneManager: "098-8245429",
+                    workInquiries: "Work inquiries",
+                    instagram: "lalinalena ",
+                  ),
+                  Ratings(
+                    defaultColor: Colors.black,
+                    ratingColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildPortraitContainer() {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Favorite Celeb'),
+        centerTitle: true,
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        color: Colors.pink[100],
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ContactImage(
+              imageFile: AssetImage('images/lalinalena.jpg'),
+              name: "Lalina",
+            ),
+            ContactInfo(
+              addrName: "Bangkok",
+              addrInfo: "Thailand",
+              phoneManager: "098-8245429",
+              workInquiries: "Work inquiries",
+              instagram: "lalinalena ",
+            ),
+            Ratings(
+              defaultColor: Colors.black,
+              ratingColor: Colors.red,
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 class ContactImage extends StatelessWidget {
   final ImageProvider imageFile;
   final String name;
@@ -45,7 +103,7 @@ class ContactImage extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundImage: imageFile,
-          radius: 100,
+          radius: 150,
         ),
         Container(
           decoration: const BoxDecoration(
@@ -54,7 +112,10 @@ class ContactImage extends StatelessWidget {
           child: Text(
             name,
             style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white,decoration: TextDecoration.none),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                decoration: TextDecoration.none),
           ),
         ),
       ],
@@ -74,7 +135,7 @@ class ContactInfo extends StatelessWidget {
     required this.addrName,
     required this.addrInfo,
     required this.instagram,
-    required this.phoneManager, 
+    required this.phoneManager,
     required this.workInquiries,
   }) : super(key: key);
 
@@ -135,27 +196,26 @@ class Ratings extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-          Icon(
+        Icon(
           Icons.star,
           color: ratingColor,
-        ), 
-         Icon(
+        ),
+        Icon(
           Icons.star,
           color: ratingColor,
-        ), 
-         Icon(
+        ),
+        Icon(
           Icons.star,
           color: ratingColor,
-        ), 
-         Icon(
+        ),
+        Icon(
           Icons.star,
           color: ratingColor,
-        ), 
-         Icon(
+        ),
+        Icon(
           Icons.star,
           color: defaultColor,
-        ), 
-       
+        ),
       ],
     );
   }

@@ -6,18 +6,21 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context){
+      final screenW = MediaQuery.of(context).size.width;
+      debugPrint(screenW.toString());
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
+        appBar: screenW <= 600
+        ?AppBar(
             title: const Text('Quiz App by 643040209-0'),
             backgroundColor: Colors.grey[50],
             elevation: 0.0,
             titleTextStyle: const TextStyle(
               color: Colors.black,
               fontSize: 20,
-            )),
+            )):null,
         body: Column(
           children: [
             QuestionWidget(
@@ -63,25 +66,34 @@ class QuestionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final screenW = MediaQuery.of(context).size.width;
+      debugPrint(screenW.toString());
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
+          padding:screenW <= 600 
+          ? const EdgeInsets.all(40)
+          :const EdgeInsets.only(top: 40),
           child: Text(question,
               style: const TextStyle(fontSize: 25, color: Colors.pinkAccent)),
         ),
         Padding(
-          padding:
-              const EdgeInsets.only(top: 50, left: 50, right: 50, bottom: 100),
-          child: image,
-        ),
+          padding: screenW <= 600 
+              ?const EdgeInsets.only(top: 50, left: 50, right: 50, bottom: 100)
+              :const EdgeInsets.only(left: 50, right: 50,bottom: 10),
+           child: screenW <= 600 ? 
+           SizedBox(child: image)
+           :SizedBox(
+            width:250,
+            child: image,
+      ),
+        ), 
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [(choices[0]), (choices[1])],
         ),
-        const SizedBox(
-          height: 40,
-        ),
+        screenW <= 600 ? const SizedBox(height: 40,)
+        :const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [(choices[2]), (choices[3])],
@@ -104,9 +116,24 @@ class ChoiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+     final screenW = MediaQuery.of(context).size.width;
+    debugPrint(screenW.toString());
+    return screenW <= 600
+     ?Container (
       color: backgroundColor,
       width: 160,
+      height: 60,
+      padding: const EdgeInsets.all(10),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(color: foregroundColor),
+        ),
+      ),
+    )
+    :Container (
+      color: backgroundColor,
+      width: 350,
       height: 60,
       padding: const EdgeInsets.all(10),
       child: Center(

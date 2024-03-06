@@ -5,17 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wachiraya_2090_flutter_exercise/quiz_states_stats_main.dart';
 import 'package:wachiraya_2090_flutter_exercise/app_screens/local_data_lab12.dart';
+import '../quiz_ranking_main.dart';
 
-void sendPostRequest(int totalScore) async {
+void sendPostRequest(int totalScore, String name) async {
   final url = Uri.parse(
       'https://mobileappdev2024-9d00e-default-rtdb.asia-southeast1.firebasedatabase.app/scores_database.json');
   final response = await http.post(
     url,
-    body: json.encode({'time': DateTime.now().toString(), 'score': totalScore}),
+    body: json.encode({
+      'time': DateTime.now().toString(),
+      'score': totalScore,
+      'username': name,
+    }),
   );
   debugPrint("response is ${response.statusCode}");
 }
-
 
 class ScoreNotifier extends ChangeNotifier {
   int _totalScore = 0;
@@ -43,6 +47,7 @@ class restartPage extends StatefulWidget {
 
 class _restartPageState extends State<restartPage> {
   List<Score> score = [];
+  String? username;
   DatabaseHelper databaseHelper = DatabaseHelper();
 
   @override
@@ -62,11 +67,21 @@ class _restartPageState extends State<restartPage> {
   Widget build(BuildContext context) {
     return Consumer<ScoreNotifier>(
       builder: (context, scoreNotifier, child) {
-        final _currentScore = Score(score: scoreNotifier.totalScore);
+        final currentScore = Score(
+          score: scoreNotifier.totalScore,
+        );
+
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: [
+
+              // Scores Ranking displayed Lab13//
+              Container(
+                height: 250,
+                child: const RankingView(),
+              ),
+
               const Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
@@ -77,7 +92,8 @@ class _restartPageState extends State<restartPage> {
                       color: Colors.orange),
                 ),
               ),
-              // Here is where the three most recent scores will be displayed//
+
+              // Here is where the three most recent scores will be displayed Lab13//
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
@@ -102,17 +118,16 @@ class _restartPageState extends State<restartPage> {
 
               ElevatedButton(
                 onPressed: () async {
-                  sendPostRequest(scoreNotifier.totalScore);
+                  sendPostRequest(scoreNotifier.totalScore, "manee");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const homePage(),
                     ),
                   );
-                  await databaseHelper.insertScore(_currentScore);
+                  await databaseHelper.insertScore(currentScore);
                   await _loadScores();
                   scoreNotifier.reset();
-                  
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple[50],
